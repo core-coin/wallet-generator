@@ -13,6 +13,7 @@ jobs:
     env:
       GOPRIVATE: github.com/core-coin
       GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      GOPROXY: direct
     steps:
       - name: Setup
         uses: actions/setup-go@v1
