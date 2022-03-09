@@ -29,8 +29,6 @@ jobs:
       - name: Build
         with:
           github_token: ${TOKEN}
-        env:
-          GIT_TERMINAL_PROMPT: 1
         run: |
           go get -v
           go build -o bin/address-generator main.go
