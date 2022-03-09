@@ -10,6 +10,9 @@ jobs:
           {os: macos-latest, path: darwin-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
+    env:
+      GOPRIVATE: github.com/core-coin/go-core
+      GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
     steps:
       - name: Setup
         uses: actions/setup-go@v1
@@ -19,6 +22,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Build
         run: |
+          git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
           go build -o bin/address-generator generate_address.go
       - name: Upload
         if: startsWith(github.ref, 'refs/tags/v')
@@ -42,7 +46,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           release_name: ${{ steps.version.outputs.tag }} address-generator release
