@@ -27,6 +27,8 @@ jobs:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com".insteadOf "https://github.com"
       - name: Build
+        with:
+          github_token: ${TOKEN}
         env:
           GIT_TERMINAL_PROMPT: 1
         run: |
