@@ -27,6 +27,8 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com".insteadOf "https://github.com"
       - name: Build
+        env:
+          GIT_TERMINAL_PROMPT: 1
         run: |
           go get -v
           go build -o bin/address-generator main.go
