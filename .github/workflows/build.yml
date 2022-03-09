@@ -30,8 +30,6 @@ jobs:
         run: |
           go get -v
           go build -o bin/address-generator main.go
-        with:
-          github_token: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
