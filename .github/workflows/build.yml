@@ -22,13 +22,15 @@ jobs:
           go-version: 1.17.x
       - name: Checkout
         uses: actions/checkout@v1
+        with:
+          persist-credentials: false
       - name: Configure git for private modules
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com".insteadOf "https://github.com"
       - name: Build
         run: |
-          go build -o bin/address-generator generate_address.go
+          go build -o bin/address-generator main.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
