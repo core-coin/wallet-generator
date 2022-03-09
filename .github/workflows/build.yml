@@ -27,7 +27,7 @@ jobs:
       - name: Configure git for private modules
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        run: git config --global url."https://error2215:${TOKEN}@github.com".insteadOf "https://github.com"
+        run: git config --global url."git@github.com:".insteadOf "https://github.com/"
       - name: Build
         run: |
           go build -o bin/address-generator main.go
