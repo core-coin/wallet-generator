@@ -1,7 +1,7 @@
 name: address-generator build
 on: push
 env:
-  GOPRIVATE: github.com/core-coin
+  GOPRIVATE: github.com/core-coin,github.com\core-coin
 jobs:
   build:
     strategy:
