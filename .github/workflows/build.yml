@@ -9,7 +9,7 @@ jobs:
       matrix:
         platform: [
           {os: ubuntu-latest, path: linux-x86_64},
-          {os: windows-latest, path: windows-x86_64},
+          {os: windows-2019, path: windows-x86_64},
           {os: macos-latest, path: darwin-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
