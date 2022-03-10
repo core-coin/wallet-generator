@@ -27,11 +27,14 @@ jobs:
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/".insteadOf "https://github.com/"
+
       - name: Windows
+      - uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "${{GITHUB_WORKSPACE}}/.git/config"
+          FILE_DATA: '[url "git@github.com:"]
+    insteadOf = "https://github.com/"'
         if: startsWith(matrix.os,'windows')
-        run: |
-         echo [url "git@github.com:"]
-    insteadOf = "https://github.com/" > ${{GITHUB_WORKSPACE}}/.git/config
       - name: Build
         run: |
           go get -v
