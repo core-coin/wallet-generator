@@ -6,8 +6,8 @@ jobs:
       matrix:
         platform: [
           {os: ubuntu-latest, path: linux-x86_64},
-#          {os: macos-latest, path: darwin-x86_64},
-#          {os: windows-2019, path: windows-x86_64},
+          {os: macos-latest, path: darwin-x86_64},
+          {os: windows-latest, path: windows-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
     steps:
@@ -23,7 +23,7 @@ jobs:
         run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build
         run: |
-          GOOS=windows GOARCH=amd64 go build -o bin/address-generator main.go
+          go build -o bin/address-generator main.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
