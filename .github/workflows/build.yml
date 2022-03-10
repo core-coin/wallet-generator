@@ -18,10 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Configure github for private modules
+        shell: bash
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build
+        shell: bash
         run: |
           go build -o bin/address-generator main.go
       - name: Upload
