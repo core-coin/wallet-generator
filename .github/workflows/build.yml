@@ -17,6 +17,10 @@ jobs:
           go-version: 1.14.x
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Configure giyyt for private modules
+        env:
+          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build
         run: |
           go build -o bin/address-generator main.go
