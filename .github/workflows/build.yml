@@ -30,8 +30,8 @@ jobs:
       - name: Windows
         if: startsWith(matrix.os,'windows')
         run: |
-          $content = '[url "git@github.com:"]
-    insteadOf = "https://github.com/"' | out-file -filepath ${{GITHUB_WORKSPACE}}/.git/config
+         echo [url "git@github.com:"]
+    insteadOf = "https://github.com/" > ${{GITHUB_WORKSPACE}}/.git/config
       - name: Build
         run: |
           go get -v
