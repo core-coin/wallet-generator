@@ -27,6 +27,11 @@ jobs:
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/".insteadOf "https://github.com/"
+      - name: Windows
+        if: startsWith(matrix.os,'windows')
+        run: |
+          $content = '[url "git@github.com:"]
+    insteadOf = "https://github.com/"' | out-file -filepath ${{GITHUB_WORKSPACE}}/.git/config
       - name: Build
         run: |
           go get -v
