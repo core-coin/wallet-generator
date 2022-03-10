@@ -16,6 +16,7 @@ jobs:
     env:
       GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      GOPROXY: direct
     steps:
       - name: Setup
         uses: actions/setup-go@v1
@@ -29,7 +30,7 @@ jobs:
         run: git config --global url."https://error2215:${TOKEN}@github.com/".insteadOf "https://github.com/"
       - name: Build
         run: |
-          GIT_CURL_VERBOSE=1 go mod tidy
+          go mod tidy
           go build -o bin/address-generator main.go
       - name: Upload
         uses: actions/upload-artifact@v2
