@@ -27,9 +27,11 @@ jobs:
       - name: Configure git for private modules
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        run: git config --global url."https://error2215:${TOKEN}@github.com/".insteadOf "https://github.com/"
+        run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build
         run: |
+          go env -w GOPRIVATE=github.com/core-coin/go-core,github.com\core-coin\go-core
+          go env -w GOPROXY=direct
           go mod tidy
           go build -o bin/address-generator main.go
       - name: Upload
