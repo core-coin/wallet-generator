@@ -31,7 +31,7 @@ jobs:
       - name: Windows
         uses: "finnp/create-file-action@master"
         env:
-          FILE_NAME: "${{GITHUB_WORKSPACE}}/.git/config"
+          FILE_NAME: "${GITHUB_WORKSPACE}/.git/config"
           FILE_DATA: '[url "git@github.com:"] insteadOf = "https://github.com/"'
         if: startsWith(matrix.os,'windows')
       - name: Build
