@@ -56,9 +56,12 @@ github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDk
 github.com/cloudflare/cloudflare-go v0.14.0/go.mod h1:EnwdgGMaFOruiPZRFSgn+TsQ3hQ7C/YWzIGLeu5c304=
 github.com/core-coin/go-core v1.0.46-dev h1:LLekfLtVgB/12iHV7f4PsfVHPrQNSYcX2RRFbV6coTM=
 github.com/core-coin/go-core v1.0.46-dev/go.mod h1:iH28s9g2a7Lu6y2OrLOJ2CvWwRQlProGgQEaRe0hWvY=
+github.com/core-coin/go-core v1.0.56 h1:0FSSyLhBLcDN4F0Y0k//nclVcotCIad3Ci5qdzWiViE=
+github.com/core-coin/go-core v1.0.56/go.mod h1:WKeFNL/XrytO7K2f0wMC5qajQshlz4u+I+sR9oOhWIE=
 github.com/core-coin/go-goldilocks v1.0.9 h1:NEX5+LXeLpj3yJPKQgEffj2ly33rOvANsWDcQR8jBUs=
 github.com/core-coin/go-goldilocks v1.0.9/go.mod h1:r6mSidt/OMBXorR8jBJYJttsver3m2EBAcSuf+m2Js0=
 github.com/core-coin/go-randomy v0.0.13/go.mod h1:7YzU3Hrss60CzXlzziTZNAQUN6u+eLAHH1cL1JRGLBE=
+github.com/core-coin/go-randomy v0.0.14/go.mod h1:7YzU3Hrss60CzXlzziTZNAQUN6u+eLAHH1cL1JRGLBE=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/dave/jennifer v1.2.0/go.mod h1:fIb+770HOpJ2fmN9EPPKOqm1vMGhB+TwXKMZhrIygKg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
