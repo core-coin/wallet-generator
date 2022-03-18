@@ -17,7 +17,7 @@ func main() {
 	var network int64
 	rand2.Seed(time.Now().Unix())
 
-	flag.Int64Var(&network, "network", 1, "Core Coin network ID (1-Mainnet, 3-Devin(Testnet), 5-Private Network)")
+	flag.Int64Var(&network, "n", 1, "Core Coin network ID (1-Mainnet, 3-Devin(Testnet), 5-Private Network)")
 	flag.Parse()
 	if network != 1 && network != 3 && network != 5 {
 		panic("Wrong network ID")
