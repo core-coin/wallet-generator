@@ -58,6 +58,8 @@ github.com/core-coin/go-core v1.0.46-dev h1:LLekfLtVgB/12iHV7f4PsfVHPrQNSYcX2RRF
 github.com/core-coin/go-core v1.0.46-dev/go.mod h1:iH28s9g2a7Lu6y2OrLOJ2CvWwRQlProGgQEaRe0hWvY=
 github.com/core-coin/go-core v1.0.56 h1:0FSSyLhBLcDN4F0Y0k//nclVcotCIad3Ci5qdzWiViE=
 github.com/core-coin/go-core v1.0.56/go.mod h1:WKeFNL/XrytO7K2f0wMC5qajQshlz4u+I+sR9oOhWIE=
+github.com/core-coin/go-core v1.0.61 h1:8hnQUGe37NkgzBC0ufPHw6xic0ZFu6+lpQOJ4nmLlGA=
+github.com/core-coin/go-core v1.0.61/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
 github.com/core-coin/go-goldilocks v1.0.9 h1:NEX5+LXeLpj3yJPKQgEffj2ly33rOvANsWDcQR8jBUs=
 github.com/core-coin/go-goldilocks v1.0.9/go.mod h1:r6mSidt/OMBXorR8jBJYJttsver3m2EBAcSuf+m2Js0=
 github.com/core-coin/go-randomy v0.0.13/go.mod h1:7YzU3Hrss60CzXlzziTZNAQUN6u+eLAHH1cL1JRGLBE=
@@ -246,6 +248,7 @@ github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnIn
 github.com/status-im/keycard-go v0.0.0-20190316090335-8537d3370df4/go.mod h1:RZLeN1LMWmRsyYjvAu+I6Dm9QmlDaIIt+Y+4Kd7Tp+Q=
 github.com/steakknife/bloomfilter v0.0.0-20180922174646-6819c0d2a570/go.mod h1:8OR4w3TdeIHIh1g6EMY5p0gVNOovcWC+1vpc7naMuAw=
 github.com/steakknife/hamming v0.0.0-20180906055917-c99c65617cd3/go.mod h1:hpGUWaI9xL8pRQCTXQgocU38Qw1g0Us7n5PxxTwTCYU=
+github.com/stianeikeland/go-rpio/v4 v4.6.0/go.mod h1:A3GvHxC1Om5zaId+HqB3HKqx4K/AqeckxB7qRjxMK7o=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.0/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
