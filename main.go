@@ -1,129 +1,195 @@
 package main
 
 import (
-	"bytes"
 	"crypto/rand"
-	"flag"
 	"fmt"
 	"github.com/core-coin/go-core/accounts/keystore"
 	"github.com/core-coin/go-core/common"
-	"github.com/core-coin/go-core/common/hexutil"
 	"github.com/core-coin/go-core/crypto"
 	"github.com/core-coin/go-goldilocks"
-	"github.com/pkg/errors"
-	"golang.org/x/term"
+	"html/template"
 	rand2 "math/rand"
+	"net/http"
 	"os"
+	"os/exec"
 	"path"
-	"strings"
-	"syscall"
+	"runtime"
+	"strconv"
 	"time"
 )
 
-var (
-	network           int64
-	displayInTerminal bool
-	keydir            string
-)
+type DecryptedWalletData struct {
+	PrivateKey string
+	PublicKey  string
+	Address    string
+}
+
+type EncryptedWalletData struct {
+	FilePath string
+	Address  string
+}
 
 func main() {
 	rand2.Seed(time.Now().Unix())
 
-	if err := parseFlags(); err != nil {
-		fmt.Println(err)
-		return
-	}
+	http.HandleFunc("/index", index)
+	http.HandleFunc("/generate_raw", generateRaw)
+	http.HandleFunc("/generate_encrypted", generateEncrypted)
+	http.HandleFunc("/exit", exit)
 
-	if displayInTerminal {
-		displayDataInTerminal()
-		return
-	}
+	go open("http://localhost:8080/index")
 
-	if err := storeDataInJSON(); err != nil {
-		fmt.Println(err)
-	}
+	panic(http.ListenAndServe(":8080", nil))
+
 }
 
-func parseFlags() error {
-	wd, err := os.Getwd()
+func index(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.New("").ParseFiles(
+		path.Join("templates", "base.html"),
+		path.Join("templates", "index.html"))
 	if err != nil {
-		return errors.New("Cannot get current directory: " + err.Error())
+		fmt.Fprintf(w, "Cannot parse template files: %v ", err)
+		return
 	}
 
-	flag.Int64Var(&network, "n", 1, "Core Coin network ID (1-Mainnet, 3-Devin(Testnet), 5-Private Network) (shorthand)")
-	flag.Int64Var(&network, "network", 1, "Core Coin network ID (1-Mainnet, 3-Devin(Testnet), 5-Private Network)")
-
-	flag.BoolVar(&displayInTerminal, "t", false, "Display decrypted data without password in terminal (optional) (shorthand)")
-	flag.BoolVar(&displayInTerminal, "terminal", false, "Display decrypted data without password in terminal (optional)")
-
-	flag.StringVar(&keydir, "k", wd,
-		`A rooted (absolute) path where to store encrypted json keyfile. Example : "/root/core-coin". Default value is current directory`)
-	flag.StringVar(&keydir, "keydir", wd,
-		`A rooted (absolute) path where to store encrypted json keyfile. Example : "/root/core-coin". Default value is current directory (shorthand)`)
-
-	flag.Parse()
-
-	if !path.IsAbs(keydir) {
-		return errors.New("Key directory is not rooted (absolute)")
+	err = tmpl.ExecuteTemplate(w, "base", nil)
+	if err != nil {
+		fmt.Println(err)
 	}
-
-	if network == 2 {
-		return errors.New("There is not network with id = 2")
-	}
-	common.DefaultNetworkID = common.NetworkID(network)
-
-	return nil
 }
 
-func displayDataInTerminal() {
+func generateRaw(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+
+	network := r.FormValue("network_id")
+	if network == "" {
+		fmt.Fprint(w, "You need to define network ID, 1=Mainnet, 3=Devin, everything bigger then 4=private networks")
+		return
+	}
+	networkId, err := strconv.Atoi(network)
+	if err != nil {
+		fmt.Fprintf(w, "Wrong network id: %v ", err)
+		return
+	}
+	if networkId == 2 {
+		fmt.Fprintln(w, "There is not network with id = 2")
+		return
+	}
+	common.DefaultNetworkID = common.NetworkID(networkId)
+
 	PrivateKey, err := crypto.GenerateKey(rand.Reader)
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(w, "Cannot generate private key: %v ", err)
+		return
 	}
 	PublicKey := goldilocks.Ed448DerivePublicKey(*PrivateKey)
 
 	Address := crypto.PubkeyToAddress(PublicKey)
 
-	fmt.Println("Private Key:", hexutil.Encode(PrivateKey[:]))
-	fmt.Println("Public Key:", hexutil.Encode(PublicKey[:]))
-	fmt.Println("Address:", Address.Hex())
+	tmpl, err := template.New("").ParseFiles(
+		path.Join("templates", "base.html"),
+		path.Join("templates", "decrypted.html"))
+	if err != nil {
+		fmt.Fprintf(w, "Cannot parse template files: %v ", err)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "base", DecryptedWalletData{
+		PrivateKey: common.Bytes2Hex(PrivateKey[:]),
+		PublicKey:  common.Bytes2Hex(PublicKey[:]),
+		Address:    Address.Hex(),
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-func readPasswordFromStdin() (string, error) {
-	fmt.Println("Enter password for wallet: ")
-	bytePassword, err := term.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		return "", err
-	}
-
-	fmt.Println("Repeat password for wallet: ")
-	repeatedBytePassword, err := term.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		return "", err
-	}
-
-	if bytes.Compare(bytePassword, repeatedBytePassword) != 0 {
-		return "", errors.New("Passwords does not match!")
-	}
-	password := string(bytePassword)
-	return strings.TrimSpace(password), nil
+func exit(w http.ResponseWriter, req *http.Request) {
+	os.Exit(1)
 }
 
-func storeDataInJSON() error {
-	password, err := readPasswordFromStdin()
-	if err != nil {
-		return err
+func generateEncrypted(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
 	}
-	account, err := keystore.StoreKey(keydir, password, keystore.StandardScryptN, keystore.StandardScryptP)
-	if err != nil {
-		return err
+
+	password := r.FormValue("pass")
+	passwordRepeat := r.FormValue("pass_repeat")
+	if password != passwordRepeat {
+		fmt.Fprintln(w, "Passwords does not match")
+		return
 	}
-	fmt.Printf("\nYour new key was generated\n\n")
-	fmt.Printf("Public address of the key:   %s\n", account.Address.Hex())
-	fmt.Printf("Path of the secret key file: %s\n\n", account.URL.Path)
-	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
-	fmt.Printf("- You must NEVER share the secret key with anyone! The key controls access to your funds!\n")
-	fmt.Printf("- You must BACKUP your key file! Without the key, it's impossible to access account funds!\n")
-	fmt.Printf("- You must REMEMBER your password! Without the password, it's impossible to decrypt the key!\n\n")
-	return nil
+
+	network := r.FormValue("network_id")
+	if network == "" {
+		fmt.Fprint(w, "You need to define network ID, 1=Mainnet, 3=Devin, everything bigger then 4=private networks")
+		return
+	}
+	networkId, err := strconv.Atoi(network)
+	if err != nil {
+		fmt.Fprintf(w, "Wrong network id: %v ", err)
+		return
+	}
+
+	if networkId == 2 {
+		fmt.Fprintln(w, "There is not network with id = 2")
+		return
+	}
+	common.DefaultNetworkID = common.NetworkID(networkId)
+
+	keyPath := r.FormValue("path")
+	if keyPath == "" {
+		keyPath, err = os.Getwd()
+		if err != nil {
+			fmt.Fprintf(w, "Cannot get working directory: %v ", err)
+			return
+		}
+	}
+	if !path.IsAbs(keyPath) {
+		fmt.Fprintln(w, "Path for keyfile is not absolute")
+		return
+	}
+	account, err := keystore.StoreKey(keyPath, password, keystore.StandardScryptN, keystore.StandardScryptP)
+	if err != nil {
+		fmt.Fprintf(w, "Cannot create a keyfile: %v", err)
+		return
+	}
+
+	tmpl, err := template.New("").ParseFiles(
+		path.Join("templates", "base.html"),
+		path.Join("templates", "encrypted.html"))
+	if err != nil {
+		fmt.Fprintf(w, "Cannot parse template files: %v ", err)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "base", EncryptedWalletData{
+		FilePath: account.URL.Path,
+		Address:  account.Address.Hex(),
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+// open opens the specified URL in the default browser of the user.
+func open(url string) error {
+	var cmd string
+	var args []string
+
+	switch runtime.GOOS {
+	case "windows":
+		cmd = "cmd"
+		args = []string{"/c", "start"}
+	case "darwin":
+		cmd = "open"
+	default: // "linux", "freebsd", "openbsd", "netbsd"
+		cmd = "xdg-open"
+	}
+	args = append(args, url)
+	return exec.Command(cmd, args...).Start()
 }
