@@ -91,13 +91,13 @@ func displayDataInTerminal() {
 
 func readPasswordFromStdin() (string, error) {
 	fmt.Println("Enter password for wallet: ")
-	bytePassword, err := term.ReadPassword(syscall.Stdin)
+	bytePassword, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
 		return "", err
 	}
 
 	fmt.Println("Repeat password for wallet: ")
-	repeatedBytePassword, err := term.ReadPassword(syscall.Stdin)
+	repeatedBytePassword, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
 		return "", err
 	}
