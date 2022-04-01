@@ -25,12 +25,12 @@ jobs:
       - name: Build Mac and Linux
         if: matrix.os != 'windows-latest'
         run: |
-          go build -o bin/address-generator main.go
+          go build -o bin/address-generator main.go templates.go
       - name: Build Windows
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          go build -o bin/address-generator.exe main.go
+          go build -o bin/address-generator.exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
