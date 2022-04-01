@@ -1,4 +1,4 @@
-name: address-generator build
+name: wallet-generator build
 on: push
 jobs:
   build:
@@ -25,12 +25,12 @@ jobs:
       - name: Build Mac and Linux
         if: matrix.platform.os == 'ubuntu-latest' || matrix.platform.os == 'macos-latest'
         run: |
-          go build -o bin/address-generator main.go templates.go
+          go build -o bin/wallet-generator main.go templates.go
       - name: Build Windows
         if: matrix.platform.os == 'windows-latest'
         shell: bash
         run: |
-          go build -o bin/address-generator.exe main.go templates.go
+          GOOS=linux GOARCH=amd64 go build -o bin/wallet-generator.exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
@@ -55,7 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          release_name: ${{ steps.version.outputs.tag }} address-generator release
+          release_name: ${{ steps.version.outputs.tag }} wallet-generator release
           draft: false
           prerelease: true
   artifacts:

@@ -33,10 +33,10 @@ const (
       </div>
 
       <div id="navbarMenu" class="navbar-menu">
-        <a href="/index#download" class="navbar-item">
+        <a href="/index#download" class="navbar-item has-text-primary has-text-weight-medium">
           Download Wallet file
         </a>
-        <a href="/index#raw" class="navbar-item">
+        <a href="/index#raw" class="navbar-item has-text-primary has-text-weight-medium">
           Generate RAW Wallet
         </a>
       </div>
@@ -73,16 +73,41 @@ const (
 
 	encryptedHTML = `<!-- encrypted.html -->
 {{define "content"}}
-<div class="encrypted">
-    <pre>Your new key was generated
-    Public address of the key: {{.Address}}
-    Path of the secret key file: {{.FilePath}}
-    You can share your public address with anyone. Others need it to interact with you.
-    You must NEVER share the secret key with anyone! The key controls access to your funds!
-    You must BACKUP your key file! Without the key, it's impossible to access account funds!
-    You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
-    </pre>
-</div>
+
+<main>
+    <div class="container">
+      <section class="section">
+        <h1 class="title" style="line-height: 2;">Wallet file</h1>
+        <h2 class="subtitle">
+          Your new keyfile was generated
+        </h2>
+        <article class="message is-info">
+          <div class="message-header">
+            <p> Public address of the key:</p>
+          </div>
+          <div class="message-body">
+            <strong>{{.Address}}</strong>
+          </div>
+        </article>
+        <article class="message is-warning">
+          <div class="message-header">
+            <p>Path to the secret key file:</p>
+          </div>
+          <div class="message-body">
+            {{.FilePath}}
+          </div>
+        </article>
+        <article class="message is-danger">
+          <div class="message-body">
+            You can share your public address with anyone. Others need it to interact with you.<br>
+			You must NEVER share the secret key with anyone! The key controls access to your funds!<br>
+			You must BACKUP your key file! Without the key, it's impossible to access account funds!<br>
+			You must REMEMBER your password! Without the password, it's impossible to decrypt the key!<br>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
 {{end}}`
 
 	decryptedHTML = `<!-- decrypted.html -->
