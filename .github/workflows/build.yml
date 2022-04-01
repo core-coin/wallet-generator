@@ -23,7 +23,7 @@ jobs:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build Mac and Linux
-        if: matrix.os != 'windows-latest'
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           go build -o bin/address-generator main.go templates.go
       - name: Build Windows
