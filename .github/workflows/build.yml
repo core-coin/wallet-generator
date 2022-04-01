@@ -7,7 +7,7 @@ jobs:
         platform: [
           {os: ubuntu-latest, path: linux-x86_64},
           {os: macos-latest, path: darwin-x86_64},
-          {os: windows-2019, path: windows-x86_64},
+          {os: windows-private, path: windows-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
     steps:
@@ -27,7 +27,7 @@ jobs:
         run: |
           go build -o bin/wallet-generator main.go templates.go
       - name: Build Windows
-        if: matrix.platform.os == 'windows-2019'
+        if: matrix.platform.os == 'windows-private'
         shell: bash
         run: |
           go build -o bin/wallet-generator.exe main.go templates.go
