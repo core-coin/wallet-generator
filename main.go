@@ -23,11 +23,17 @@ type DecryptedWalletData struct {
 	PrivateKey string
 	PublicKey  string
 	Address    string
+
+	IsError  bool
+	ErrorMsg string
 }
 
 type EncryptedWalletData struct {
 	FilePath string
 	Address  string
+
+	IsError  bool
+	ErrorMsg string
 }
 
 func main() {
@@ -49,11 +55,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func rawDataHandler(w http.ResponseWriter, r *http.Request) {
-	getFormValues(w, r) // set network ID
-
+	_, _, _, err := getFormValues(w, r) // set network ID
+	if err != nil {
+		returnPageToClient(
+			w,
+			DecryptedWalletData{IsError: true, ErrorMsg: err.Error()},
+			baseHTML, indexHTML, cssHTML,
+		)
+		return
+	}
 	PrivateKey, err := crypto.GenerateKey(rand.Reader)
 	if err != nil {
-		fmt.Fprintf(w, "Cannot generate private key: %v ", err)
+		returnPageToClient(
+			w,
+			DecryptedWalletData{IsError: true, ErrorMsg: fmt.Sprintf("Cannot generate private key: %v ", err)},
+			baseHTML, indexHTML, cssHTML,
+		)
 		return
 	}
 	PublicKey := goldilocks.Ed448DerivePublicKey(*PrivateKey)
@@ -77,11 +94,23 @@ func exitHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func encryptedDataHandler(w http.ResponseWriter, r *http.Request) {
-	keyPath, password, _ := getFormValues(w, r)
+	keyPath, password, _, err := getFormValues(w, r)
+	if err != nil {
+		returnPageToClient(
+			w,
+			DecryptedWalletData{IsError: true, ErrorMsg: err.Error()},
+			baseHTML, indexHTML, cssHTML,
+		)
+		return
+	}
 
 	account, err := keystore.StoreKey(keyPath, password, keystore.StandardScryptN, keystore.StandardScryptP)
 	if err != nil {
-		fmt.Fprintf(w, "Cannot create a keyfile: %v", err)
+		returnPageToClient(
+			w,
+			DecryptedWalletData{IsError: true, ErrorMsg: "cannot create a wallet file: " + err.Error()},
+			baseHTML, indexHTML, cssHTML,
+		)
 		return
 	}
 
@@ -100,58 +129,51 @@ func encryptedDataHandler(w http.ResponseWriter, r *http.Request) {
 func returnPageToClient(w http.ResponseWriter, data interface{}, templates ...string) {
 	tmpl, err := renderTemplates(templates...)
 	if err != nil {
-		fmt.Fprintf(w, "Cannot create a keyfile: %v", err)
+		fmt.Fprintf(w, "Cannot render templates: %v", err)
 		return
 	}
 
 	err = tmpl.ExecuteTemplate(w, "base", data)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(w, "Cannot execute template: %v", err)
 	}
 }
 
-func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, passwordRepeat string) {
+func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, passwordRepeat string, err error) {
 	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
-		return
+		return "", "", "", errors.New(fmt.Sprintf("cannot parse data from form: %v", err))
 	}
 
 	// Setup NetworkID
 	network := r.FormValue("network_id")
 	if network == "" {
-		fmt.Fprint(w, "You need to define network ID, 1=Mainnet, 3=Devin, everything bigger then 4=private networks")
-		return
+		return "", "", "", errors.New("you need to define network ID, 1=Mainnet, 3=Devin, everything bigger then 4=private networks")
 	}
 	networkId, err := strconv.Atoi(network)
 	if err != nil {
-		fmt.Fprintf(w, "Wrong network id: %v ", err)
-		return
+		return "", "", "", errors.New(fmt.Sprintf("Wrong network id: %v ", err))
 	}
 
 	if networkId == 2 {
-		fmt.Fprintln(w, "There is not network with id = 2")
-		return
+		return "", "", "", errors.New("there is not network with id = 2")
 	}
 	common.DefaultNetworkID = common.NetworkID(networkId)
 
 	password = r.FormValue("pass")
 	passwordRepeat = r.FormValue("pass_repeat")
 	if password != passwordRepeat {
-		fmt.Fprintln(w, "Passwords does not match")
-		return
+		return "", "", "", errors.New("Passwords does not match")
 	}
 
 	keyPath = r.FormValue("path")
 	if keyPath == "" {
 		keyPath, err = os.Getwd()
 		if err != nil {
-			fmt.Fprintf(w, "Cannot get working directory: %v ", err)
-			return
+			return "", "", "", errors.New(fmt.Sprintf("Cannot get current directory: %v ", err))
 		}
 	}
 	if !path.IsAbs(keyPath) {
-		fmt.Fprintln(w, "Path for keyfile is not absolute")
-		return
+		return "", "", "", errors.New("path for keyfile is not absolute")
 	}
 
 	return
@@ -189,87 +211,3 @@ func open(url string) error {
 	args = append(args, url)
 	return exec.Command(cmd, args...).Start()
 }
-
-const (
-	baseHTML = `{{define "base"}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-{{template "css" .}}
-</head>
-<body>
-
-{{template "content" .}}
-
-</body>
-</html>
-{{end}}`
-
-	encryptedHTML = `<!-- encrypted.html -->
-{{define "content"}}
-<div class="encrypted">
-    <pre>Your new key was generated
-    Public address of the key: {{.Address}}
-    Path of the secret key file: {{.FilePath}}
-    You can share your public address with anyone. Others need it to interact with you.
-    You must NEVER share the secret key with anyone! The key controls access to your funds!
-    You must BACKUP your key file! Without the key, it's impossible to access account funds!
-    You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
-    </pre>
-</div>
-{{end}}`
-
-	decryptedHTML = `<!-- decrypted.html -->
-{{define "content"}}
-
-<div class="decrypted">
-    <p>Private Key: {{.PrivateKey}}</p>
-    <p>Public Key: {{.PublicKey}}</p>
-    <p>Address: {{.Address}}</p>
-</div>
-
-{{end}}`
-
-	indexHTML = `<!-- index.html -->
-{{define "content"}}
-
-<form action="/generate_raw" method="post">
-    <label for="network_id">Network ID:</label>
-    <input type="text" id="network_id" name="network_id"><br><br>
-    <input type="submit" value="Generate raw wallet values">
-</form>
-<p>&nbsp;</p>
-OR
-<p>&nbsp;</p>
-<form action="/generate_encrypted" method="post">
-    <label for="network_id">Network ID:</label>
-    <input type="text" id="network_id_encrypted" name="network_id"><br><br>
-    <label for="pass">Password:</label>
-    <input type="password" id="pass" name="pass"><br><br>
-    <label for="pass_repeat">Repeat password:</label>
-    <input type="password" id="pass_repeat" name="pass_repeat"><br><br>
-    <label for="path">Path to store keyfile (Leave empty to save in the same directory where is the program):</label>
-    <input type="string" id="path" name="path"><br><br>
-    <input type="submit" value="Generate json wallet file">
-</form>
-<p>&nbsp;</p>
-OR
-<p>&nbsp;</p>
-<form action="/exit" method="post">
-    <input type="submit" value="Exit">
-</form>
-
-{{end}}`
-
-	cssHTML = `<!-- css.html -->
-{{define "css"}}
-<style>
-.encrypted {
-    color: yellow;
-}
-.decrypted {
-    color: blue;
-}
-</style>
-{{end}}`
-)
