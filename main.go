@@ -39,12 +39,12 @@ type EncryptedWalletData struct {
 func main() {
 	rand2.Seed(time.Now().Unix())
 
-	http.HandleFunc("/index", indexHandler)
+	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/generate_raw", rawDataHandler)
 	http.HandleFunc("/generate_encrypted", encryptedDataHandler)
 	http.HandleFunc("/exit", exitHandler)
 
-	go open("http://localhost:8080/index")
+	go open("http://localhost:8080/")
 
 	panic(http.ListenAndServe(":8080", nil))
 
