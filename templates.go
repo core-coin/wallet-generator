@@ -33,10 +33,10 @@ const (
       </div>
 
       <div id="navbarMenu" class="navbar-menu">
-        <a href="/index#download" class="navbar-item has-text-primary has-text-weight-medium">
+        <a href="/#download" class="navbar-item has-text-primary has-text-weight-medium">
           Download Wallet file
         </a>
-        <a href="/index#raw" class="navbar-item has-text-primary has-text-weight-medium">
+        <a href="/#raw" class="navbar-item has-text-primary has-text-weight-medium">
           Generate RAW Wallet
         </a>
       </div>
