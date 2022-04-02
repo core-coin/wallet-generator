@@ -6,55 +6,58 @@
 
 > Application is build for macOS and Linux systems with x86-64 architecture.
 
-1. Download latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
+1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
    - `darwin-x86_64.zip` = macOS
    - `linux-x86_64.zip` = Linux
 1. Grant permissions:
-   - Via terminal: `chmod 700 wallet-generator`.
-   - Via properties of the file: Right click on File -> Properties -> Permissions -> Execute.
+   - Via the terminal: `chmod 700 wallet-generator`.
+   - Via the properties of the file: Right click on File -> Properties -> Permissions -> Execute.
 1. Start the application:
-   - Via terminal: `./wallet-generator`.
+   - Via the terminal: `./wallet-generator`.
    - Via GUI: Double click on it.
-1. Application will start in your predefined browser automatically on address: `http://localhost:8080`.
+1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
-If you follow all steps, you should see executable file.
+If you follow all the steps, you should see the executable file.
+
 ![Wallet Generator](docs/mac-wallet-generator-icon.png "Wallet Generator icon")
 
 ### Security warnings
 
-#### On the macOS systems
+#### In the macOS systems
 
-Mac systems have notice of the unsigned applications.
+Mac systems notice any unassigned application.
 
-If you get the warning message as following:
+if you get this warning message:
+
 ![Security notification](docs/mac-security-notification.png "Security notification")
 
-Please, visit your `System Preferences > Security & Privacy > General tab` and allow the application.
+Please, visit your `System Preferences > Security & Privacy > General tab` and allow the application to launch.
+
 ![System Preferences](docs/mac-system-preferences.png "System Preferences")
 
 ### Security recommendations
 
 Make sure you:
 - Download the application from official [release page](https://github.com/core-coin/wallet-generator/releases).
-- The application is not modified by third-party.
-- Your device is safe and protected by antivirus.
-- You are not connected to any communication network not even internet.
+- The application is not modified by any third party.
+- Your device is safe and protected by an antivirus.
+- You are not connected to any communication network, not even internet.
 - Turn your WiFi and Bluetooth off.
-- Disconnect any auxiliary cables, including the ethernet cable.
+- Disconnect all auxiliary cables, including the ethernet cable.
 - Don't expose your monitor to any recording device or public.
-- Hide your screen for exposure to windows / open spaces.
-- Avoid any software not necessary on your devices.
-- Are aware of key-loggers and check for any harmful software before generation of wallet.
-- Are aware of phishing and make sure you access application from `http://localhost:8080`
+- Don't expose your screen to any windows or open spaces.
+- Avoid any unnecessary software on your devices.
+- Be aware of key-loggers and check for any harmful software before generating your wallet.
+- Be aware of phishing and make sure you access the application from `http://localhost:8080`.
 
 You have to:
-- Backup the file or data securely.
-- Don't expose the secure data to third-parties.
+- Backup a file or data securely.
+- Make sure not to expose the secure data to third parties.
 - Select the correct network, where the wallet should operate.
 
-I am aware of:
-- Loosing the data or file means loosing all the funds and connected data.
-- If you forgot the password, you will loose the access.
+I am aware that:
+- Loosing the data or the files means loosing all the funds and connected data.
+- If I forget the password, I will lose the access.
 
 ### Liability
 
