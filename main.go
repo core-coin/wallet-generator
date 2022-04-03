@@ -39,12 +39,12 @@ type EncryptedWalletData struct {
 func main() {
 	rand2.Seed(time.Now().Unix())
 
-	http.HandleFunc("/index", indexHandler)
+	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/generate_raw", rawDataHandler)
 	http.HandleFunc("/generate_encrypted", encryptedDataHandler)
 	http.HandleFunc("/exit", exitHandler)
 
-	go open("http://localhost:8080/index")
+	go open("http://localhost:8080/")
 
 	panic(http.ListenAndServe(":8080", nil))
 
@@ -55,7 +55,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func rawDataHandler(w http.ResponseWriter, r *http.Request) {
-	_, _, _, err := getFormValues(w, r) // set network ID
+	_, _, _, err := getFormValues(r) // set network ID
 	if err != nil {
 		returnPageToClient(
 			w,
@@ -94,7 +94,7 @@ func exitHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func encryptedDataHandler(w http.ResponseWriter, r *http.Request) {
-	keyPath, password, _, err := getFormValues(w, r)
+	keyPath, password, _, err := getFormValues(r)
 	if err != nil {
 		returnPageToClient(
 			w,
@@ -108,7 +108,7 @@ func encryptedDataHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		returnPageToClient(
 			w,
-			DecryptedWalletData{IsError: true, ErrorMsg: "cannot create a wallet file: " + err.Error()},
+			DecryptedWalletData{IsError: true, ErrorMsg: "Cannot create a wallet file: " + err.Error()},
 			baseHTML, indexHTML, cssHTML,
 		)
 		return
@@ -139,15 +139,15 @@ func returnPageToClient(w http.ResponseWriter, data interface{}, templates ...st
 	}
 }
 
-func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, passwordRepeat string, err error) {
+func getFormValues(r *http.Request) (keyPath, password, passwordRepeat string, err error) {
 	if err := r.ParseForm(); err != nil {
-		return "", "", "", errors.New(fmt.Sprintf("cannot parse data from form: %v", err))
+		return "", "", "", errors.New(fmt.Sprintf("Cannot parse data from form: %v", err))
 	}
 
 	// Setup NetworkID
 	network := r.FormValue("network_id")
 	if network == "" {
-		return "", "", "", errors.New("you need to define network ID, 1=Mainnet, 3=Devin, everything bigger then 4=private networks")
+		return "", "", "", errors.New("You need to define network ID: 1=Mainnet, 3=Devin, 4+=Enterprise")
 	}
 	networkId, err := strconv.Atoi(network)
 	if err != nil {
@@ -155,7 +155,7 @@ func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, p
 	}
 
 	if networkId == 2 {
-		return "", "", "", errors.New("there is not network with id = 2")
+		return "", "", "", errors.New("Network ID 2 is not existent!")
 	}
 	common.DefaultNetworkID = common.NetworkID(networkId)
 
@@ -175,7 +175,7 @@ func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, p
 	}
 	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
 		if !path.IsAbs(keyPath) {
-			return "", "", "", errors.New("path for keyfile is not absolute")
+			return "", "", "", errors.New("Зath for keyfile is not absolute")
 		}
 	}
 	return

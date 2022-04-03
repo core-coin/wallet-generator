@@ -1,39 +1,74 @@
-# Core Blockchain ICAN Address Generator
+# Core Blockchain ICAN Wallet Generator
 
-## This is simple ICAN address generator for Core Blockchain network
+![Wallet Generator](docs/wallet-generator.png "Wallet Generator")
 
-### How to use
+### Start the application
 
-1. Grant permissions 
-   - Via terminal: `chmod 100 wallet-generator`
-   - Via properties of file: Right click on file -> Properties -> Permissions -> Execute
-2. Run it via 2 ways :
-   1. Via terminal: `./wallet-generator`
-   2. Via GUI just double click on it
+> Application is build for macOS and Linux systems with x86-64 architecture.
 
-### Returned values
+1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
+   - `darwin-x86_64.zip` = macOS
+   - `linux-x86_64.zip` = Linux
+1. Grant permissions:
+   - Via the terminal: `chmod 700 wallet-generator`.
+   - Via the properties of the file: Right click on File -> Properties -> Permissions -> Execute.
+1. Start the application:
+   - Via the terminal: `./wallet-generator`.
+   - Via GUI: Double click on it.
+1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
-1. You can generate data in decrypted type and u will be returned this values:
+If you follow all the steps, you should see the executable file.
 
-      `Private Key: 0x8f7…949` - private key in go-core
-      
-      `Public Key: 0xe23…280` - public key in go-core
-      
-      `Address: cb723…c61` - address in go-core
+![Wallet Generator](docs/mac-wallet-generator-icon.png "Wallet Generator icon")
 
-2. Also you can generate encrypted json wallet file, which will be protected with password
+### Security warnings
 
-### How to run
+#### In the macOS systems
 
-* Build from source
-  1. `go build .`
-  2. Grant permissions `chmod 100 wallet-generator`
-  3. Generate data in one of two ways
-* Use prebuilt binaries
-  1. Download binary from the [Release page](https://github.com/core-coin/wallet-generator/releases)
-  2. Grant permissions `chmod 100 wallet-generator`
-  3. Generate data in one of two ways
+Mac systems notice any unassigned application.
+
+if you get this warning message:
+
+![Security notification](docs/mac-security-notification.png "Security notification")
+
+Please, visit your `System Preferences > Security & Privacy > General tab` and allow the application to launch.
+
+![System Preferences](docs/mac-system-preferences.png "System Preferences")
+
+### Security recommendations
+
+Make sure you:
+- Download the application from official [release page](https://github.com/core-coin/wallet-generator/releases).
+- The application is not modified by any third party.
+- Your device is safe and protected by an antivirus.
+- You are not connected to any communication network, not even internet.
+- Turn your WiFi and Bluetooth off.
+- Disconnect all auxiliary cables, including the ethernet cable.
+- Don't expose your monitor to any recording device or public.
+- Don't expose your screen to any windows or open spaces.
+- Avoid any unnecessary software on your devices.
+- Be aware of key-loggers and check for any harmful software before generating your wallet.
+- Be aware of phishing and make sure you access the application from `http://localhost:8080`.
+
+You have to:
+- Backup a file or data securely.
+- Make sure not to expose the secure data to third parties.
+- Select the correct network, where the wallet should operate.
+
+I am aware that:
+- Loosing the data or the files means loosing all the funds and connected data.
+- If I forget the password, I will lose the access.
+
+### Liability
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE TO ANY CLAIM, DAMAGES OR
+OTHER LIABILITIES, WHETHER IN AN ACTION OF A CONTRACT, TORT, OR OTHERWISE,
+ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE, OR
+OTHER DEALINGS IN THE SOFTWARE.
 
 ### License
 
-[CORE License](LICENSE)
+Released under the [CORE License](LICENSE).
