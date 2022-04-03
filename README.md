@@ -4,22 +4,37 @@
 
 ### Start the application
 
-> Application is build for macOS and Linux systems with x86-64 architecture.
+> Application is build for macOS, Linux and Windows systems with x86-64 architecture.
+
+#### Mac and Linux
 
 1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
-   - `darwin-x86_64.zip` = macOS
-   - `linux-x86_64.zip` = Linux
+   - `wallet-generator-darwin-x86_64.zip` = macOS
+   - `wallet-generator-linux-x86_64.zip` = Linux
+1. Unzip the file.
 1. Grant permissions:
-   - Via the terminal: `chmod 700 wallet-generator`.
+   - Via the terminal: `chmod 700 wallet-generator` or
    - Via the properties of the file: Right click on File -> Properties -> Permissions -> Execute.
 1. Start the application:
-   - Via the terminal: `./wallet-generator`.
+   - Via the terminal: `./wallet-generator` or
    - Via GUI: Double click on it.
 1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
 If you follow all the steps, you should see the executable file.
 
-![Wallet Generator](docs/mac-wallet-generator-icon.png "Wallet Generator icon")
+![Wallet Generator Unix](docs/unix-wallet-generator-icon.png "Wallet Generator icon")
+
+#### Windows
+
+1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
+   - `wallet-generator-windows-x86_64.zip` = Windows
+1. Unzip the file.
+1. Double click on the icon.
+1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
+
+If you follow all the steps, you should see the executable file.
+
+![Wallet Generator Windows](docs/windows-wallet-generator-icon.png "Wallet Generator icon")
 
 ### Security warnings
 
@@ -34,6 +49,16 @@ if you get this warning message:
 Please, visit your `System Preferences > Security & Privacy > General tab` and allow the application to launch.
 
 ![System Preferences](docs/mac-system-preferences.png "System Preferences")
+
+#### In the Windows systems
+
+Windows system will notice you about `Unknown Publisher`.
+
+`The Publisher could not be verified. Are you sure you want to run this software?`
+
+![Security notification](docs/windows-security-notification.png "Security notification")
+
+To proceed press `Run`, otherwise hit `Cancel`.
 
 ### Security recommendations
 
@@ -72,3 +97,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 ### License
 
 Released under the [CORE License](LICENSE).
+
+*Cryptoni confidimus*
