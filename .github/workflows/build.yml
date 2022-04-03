@@ -29,8 +29,12 @@ jobs:
       - name: Build for Windows
         if: matrix.platform.path == 'windows-x86_64'
         run: |
-          sudo apt install gcc-mingw-w64 build-essential -y
-          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-gcc go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
+          sudo apt install build-essential
+          sudo apt install git -y
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install mingw-w64
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc-11.2.0 CXX=x86_64-w64-mingw32-gcc-11.2.0 go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
@@ -58,28 +62,28 @@ jobs:
 #          release_name: ${{ steps.version.outputs.tag }} wallet-generator release
 #          draft: false
 #          prerelease: true
-  artifacts:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [linux-x86_64, darwin-x86_64, windows-x86_64]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: wallet-generator-${{ matrix.platform }}
-          path: ./wallet-generator-${{ matrix.platform }}
-      - name: Zip
-        run: zip wallet-generator-${{ matrix.platform }}.zip wallet-generator-${{ matrix.platform }}/* -j
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./wallet-generator-${{ matrix.platform }}.zip
-          asset_name: wallet-generator-${{ matrix.platform }}.zip
-          asset_content_type: application/zip
+#  artifacts:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        platform: [linux-x86_64, darwin-x86_64, windows-x86_64]
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v1
+#      - name: Artifact
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: wallet-generator-${{ matrix.platform }}
+#          path: ./wallet-generator-${{ matrix.platform }}
+#      - name: Zip
+#        run: zip wallet-generator-${{ matrix.platform }}.zip wallet-generator-${{ matrix.platform }}/* -j
+#      - name: Upload release assets
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ needs.release.outputs.upload_url }}
+#          asset_path: ./wallet-generator-${{ matrix.platform }}.zip
+#          asset_name: wallet-generator-${{ matrix.platform }}.zip
+#          asset_content_type: application/zip
