@@ -171,11 +171,13 @@ func getFormValues(w http.ResponseWriter, r *http.Request) (keyPath, password, p
 		if err != nil {
 			return "", "", "", errors.New(fmt.Sprintf("Cannot get current directory: %v ", err))
 		}
+		return
 	}
-	if !path.IsAbs(keyPath) {
-		return "", "", "", errors.New("path for keyfile is not absolute")
+	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
+		if !path.IsAbs(keyPath) {
+			return "", "", "", errors.New("path for keyfile is not absolute")
+		}
 	}
-
 	return
 }
 

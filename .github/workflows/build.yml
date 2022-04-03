@@ -7,7 +7,7 @@ jobs:
         platform: [
           {os: ubuntu-latest, path: linux-x86_64},
           {os: macos-latest, path: darwin-x86_64},
-          {os: windows-private, path: windows-x86_64},
+          {os: ubuntu-latest, path: windows-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
     steps:
@@ -22,19 +22,20 @@ jobs:
         env:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
-      - name: Build Mac and Linux
+      - name: Build for Mac and Linux
         if: matrix.platform.os == 'ubuntu-latest' || matrix.platform.os == 'macos-latest'
         run: |
           go build -o bin/wallet-generator main.go templates.go
-      - name: Build Windows
-        if: matrix.platform.os == 'windows-private'
+      - name: Build for Windows
+        if: matrix.platform.path == 'windows-x86_64'
         shell: bash
         run: |
-          go build -o bin/wallet-generator.exe main.go templates.go
+          sudo apt-get install gcc-mingw-w64 -y
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-gcc go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.platform.path }}
+          name: wallet-generator-${{ matrix.platform.path }}
           path: ./bin
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -70,16 +71,16 @@ jobs:
       - name: Artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ matrix.platform }}
-          path: ./${{ matrix.platform }}
+          name: wallet-generator-${{ matrix.platform }}
+          path: ./wallet-generator-${{ matrix.platform }}
       - name: Zip
-        run: zip ${{ matrix.platform }}.zip ${{ matrix.platform }}/* -j
+        run: zip wallet-generator-${{ matrix.platform }}.zip wallet-generator-${{ matrix.platform }}/* -j
       - name: Upload release assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./${{ matrix.platform }}.zip
-          asset_name: ${{ matrix.platform }}.zip
+          asset_path: ./wallet-generator-${{ matrix.platform }}.zip
+          asset_name: wallet-generator-${{ matrix.platform }}.zip
           asset_content_type: application/zip
