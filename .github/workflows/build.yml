@@ -63,7 +63,7 @@ jobs:
           draft: false
           prerelease: true
   artifacts:
-    needs: build
+    needs: release
     runs-on: ubuntu-latest
     strategy:
       matrix:
