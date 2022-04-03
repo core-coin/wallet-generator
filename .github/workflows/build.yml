@@ -23,26 +23,23 @@ jobs:
           TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build for Mac and Linux
-        if: matrix.platform.os == 'ubuntu-latest' || matrix.platform.os == 'macos-latest'
+        if: matrix.platform.path == 'linux-x86_64' || matrix.platform.path == 'darwin-x86_64'
         run: |
           go build -o bin/wallet-generator main.go templates.go
       - name: Build for Windows
         if: matrix.platform.path == 'windows-x86_64'
         run: |
-          sudo apt install gcc-mingw-w64 -y
-          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-gcc go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
-      - name: Upload Mac and Linux
-        if: matrix.platform.os == 'ubuntu-latest' || matrix.platform.os == 'macos-latest'
+          sudo apt install build-essential
+          sudo apt install git -y
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install mingw-w64
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc-11.2.0 CXX=x86_64-w64-mingw32-gcc-11.2.0 go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
+      - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: wallet-generator-${{ matrix.platform.path }}
           path: ./bin
-      - name: Upload Windows
-        if: matrix.platform.path == 'windows-x86_64'
-        uses: actions/upload-artifact@v2
-        with:
-          name: wallet-generator-${{ matrix.platform.path }}
-          path: ./bin/wallet-generator.exe
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
