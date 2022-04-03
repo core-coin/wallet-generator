@@ -60,7 +60,7 @@ jobs:
 #          draft: false
 #          prerelease: true
   artifacts:
-#    needs: release
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
