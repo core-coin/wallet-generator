@@ -28,15 +28,21 @@ jobs:
           go build -o bin/wallet-generator main.go templates.go
       - name: Build for Windows
         if: matrix.platform.path == 'windows-x86_64'
-        shell: bash
         run: |
-          sudo apt-get install gcc-mingw-w64 -y
+          sudo apt install gcc-mingw-w64 -y
           GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-gcc go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
-      - name: Upload
+      - name: Upload Mac and Linux
+        if: matrix.platform.os == 'ubuntu-latest' || matrix.platform.os == 'macos-latest'
         uses: actions/upload-artifact@v2
         with:
           name: wallet-generator-${{ matrix.platform.path }}
           path: ./bin
+      - name: Upload Windows
+        if: matrix.platform.path == 'windows-x86_64'
+        uses: actions/upload-artifact@v2
+        with:
+          name: wallet-generator-${{ matrix.platform.path }}
+          path: ./bin/wallet-generator.exe
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
