@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wallet-generator-${{ matrix.platform.path }}
-          path: ./bin
+          path: ./bin/wallet-generator*
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
@@ -76,14 +76,57 @@ jobs:
         with:
           name: wallet-generator-${{ matrix.platform }}
           path: ./wallet-generator-${{ matrix.platform }}
-      - name: Zip
-        run: zip wallet-generator-${{ matrix.platform }}.zip wallet-generator-${{ matrix.platform }}/* -j
-      - name: Upload release assets
+      - name: Upload release assets (Linux and MacOS)
+        if: matrix.platform != 'windows-x86_64'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./wallet-generator-${{ matrix.platform }}.zip
-          asset_name: wallet-generator-${{ matrix.platform }}.zip
-          asset_content_type: application/zip
+          asset_path: ./wallet-generator-${{ matrix.platform }}/wallet-generator
+          asset_name: wallet-generator-${{ matrix.platform }}
+          asset_content_type: application/octet-stream
+      - name: Upload release assets (Windows)
+        if: matrix.platform == 'windows-x86_64'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./wallet-generator-${{ matrix.platform }}/wallet-generator.exe
+          asset_name: wallet-generator-${{ matrix.platform }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Generate checksums (Linux and Mac)
+        if: matrix.platform != 'windows-x86_64'
+        working-directory: ./wallet-generator-${{ matrix.platform }}
+        run: |
+          mv ./wallet-generator ./wallet-generator-${{ matrix.platform }}
+          sha256sum wallet-generator-${{ matrix.platform }} >wallet-generator-${{ matrix.platform }}.checksum
+      - name: Generate checksums (Windows)
+        if: matrix.platform == 'windows-x86_64'
+        working-directory: ./wallet-generator-${{ matrix.platform }}
+        run: |
+          mv ./wallet-generator.exe ./wallet-generator-${{ matrix.platform }}.exe
+          sha256sum wallet-generator-${{ matrix.platform }}.exe >wallet-generator-${{ matrix.platform }}.exe.checksum
+
+      - name: Upload release assets checksums (Linux and Mac)
+        if: matrix.platform != 'windows-x86_64'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./wallet-generator-${{ matrix.platform }}/wallet-generator-${{ matrix.platform }}.checksum
+          asset_name: wallet-generator-${{ matrix.platform }}.checksum
+          asset_content_type: text/plain
+      - name: Upload wallet-generator release assets checksums (Windows)
+        if: matrix.platform == 'windows-x86_64'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./wallet-generator-${{ matrix.platform }}/wallet-generator-${{ matrix.platform }}.exe.checksum
+          asset_name: wallet-generator-${{ matrix.platform }}.exe.checksum
+          asset_content_type: text/plain
