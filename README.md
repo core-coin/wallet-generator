@@ -9,15 +9,14 @@
 #### Mac and Linux
 
 1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
-   - `wallet-generator-darwin-x86_64.zip` = macOS
-   - `wallet-generator-linux-x86_64.zip` = Linux
-1. Unzip the file.
+   - `wallet-generator-darwin-x86_64` = macOS
+   - `wallet-generator-linux-x86_64` = Linux
 1. [Open the Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac) and navigate to file location. Mostly it is: `~/Downloads`
 1. Grant permissions:
-   - Via the terminal: `chmod +x wallet-generator` or
+   - Via the terminal: `chmod +x wallet-generator-...` or
    - Via the properties of the file: Right click on File -> Properties -> Permissions -> Execute.
 1. Start the application:
-   - Via the terminal: `./wallet-generator` or
+   - Via the terminal: `./wallet-generator-...` or
    - Via GUI: Double click on it.
 1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
@@ -28,8 +27,7 @@ If you follow all the steps, you should see the executable file.
 #### Windows
 
 1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
-   - `wallet-generator-windows-x86_64.zip` = Windows
-1. Unzip the file.
+   - `wallet-generator-windows-x86_64.exe` = Windows
 1. Double click on the icon.
 1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
