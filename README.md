@@ -11,12 +11,12 @@
 1. Download the latest [Release](https://github.com/core-coin/wallet-generator/releases) for your system.
    - `wallet-generator-darwin-x86_64` = macOS
    - `wallet-generator-linux-x86_64` = Linux
-1. [Open the Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac) and navigate to file location. Mostly it is: `~/Downloads`
+1. [Open the Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac) and navigate to file location. Mostly it is: `~/Downloads` You can change directory with the command: `cd ~/Downloads`
 1. Grant permissions:
-   - Via the terminal: `chmod +x wallet-generator-...` or
+   - Via the terminal: `chmod +x wallet-generator-…` or
    - Via the properties of the file: Right click on File -> Properties -> Permissions -> Execute.
 1. Start the application:
-   - Via the terminal: `./wallet-generator-...` or
+   - Via the terminal: `./wallet-generator-…` or
    - Via GUI: Double click on it.
 1. The application will start in your predefined browser automatically at the following address: `http://localhost:8080`.
 
@@ -63,6 +63,7 @@ To proceed press `Run`, otherwise hit `Cancel`.
 
 Make sure you:
 - Download the application from official [release page](https://github.com/core-coin/wallet-generator/releases).
+- Compare the checksum with the application, you are about to execute. Command: `cat wallet-generator-….checksum | sha256sum --check --status`
 - The application is not modified by any third party.
 - Your device is safe and protected by an antivirus.
 - You are not connected to any communication network, not even internet.

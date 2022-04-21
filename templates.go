@@ -83,7 +83,7 @@ const (
         </h2>
         <article class="message is-info">
           <div class="message-header">
-            <p> Public address of the key:</p>
+            <p>Wallet address</p>
           </div>
           <div class="message-body">
             <strong>{{.Address}}</strong>
@@ -91,7 +91,7 @@ const (
         </article>
         <article class="message is-warning">
           <div class="message-header">
-            <p>Path to the secret key file:</p>
+            <p>Wallet location</p>
           </div>
           <div class="message-body">
             {{.FilePath}}
@@ -99,10 +99,10 @@ const (
         </article>
         <article class="message is-danger">
           <div class="message-body">
-            You can share your public address with anyone. Others need it to interact with you.<br>
-			You must NEVER share the secret key with anyone! The key controls access to your funds!<br>
-			You must BACKUP your key file! Without the key, it's impossible to access account funds!<br>
-			You must REMEMBER your password! Without the password, it's impossible to decrypt the key!<br>
+            You can share your Wallet address with the person/program you decide. Participants need it to interact with you.<br>
+						You CAN NOT share the secret key with anyone! The key controls access to your funds!<br>
+						You must BACK UP your key file! Without the key, it's impossible to access account funds!<br>
+						You must REMEMBER your password! Without the password, it's impossible to decrypt the key!<br>
           </div>
         </article>
       </section>
