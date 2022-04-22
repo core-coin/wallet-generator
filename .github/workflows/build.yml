@@ -44,6 +44,8 @@ jobs:
       - name: Build for Windows
         if: ${{ matrix.platform.path == 'windows-x86_64' }}
         shell: msys2 {0}
+        env:
+          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: |
           git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
           go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
