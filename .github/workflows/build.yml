@@ -45,6 +45,7 @@ jobs:
         if: ${{ matrix.platform.path == 'windows-x86_64' }}
         shell: msys2 {0}
         run: |
+          git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
           go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
