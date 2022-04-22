@@ -7,16 +7,16 @@ jobs:
         platform: [
           {os: ubuntu-latest, path: linux-x86_64},
           {os: macos-latest, path: darwin-x86_64},
-          {os: ubuntu-latest, path: windows-x86_64},
+          {os: windows-latest, path: windows-x86_64},
         ]
     runs-on: ${{ matrix.platform.os }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
           go-version: 1.16.x
-      - name: Checkout
-        uses: actions/checkout@v1
       - name: Configure github for private modules
         shell: bash
         env:
@@ -26,15 +26,29 @@ jobs:
         if: matrix.platform.path == 'linux-x86_64' || matrix.platform.path == 'darwin-x86_64'
         run: |
           go build -o bin/wallet-generator main.go templates.go
+      - name: Setup MSYS
+        if: ${{ matrix.platform.path == 'windows-x86_64' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          update: true
+          install: >
+            git
+            base-devel
+            autoconf-wrapper
+            autoconf
+            automake
+            libtool
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-go
       - name: Build for Windows
-        if: matrix.platform.path == 'windows-x86_64'
+        if: ${{ matrix.platform.path == 'windows-x86_64' }}
+        shell: msys2 {0}
+        env:
+          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: |
-          sudo apt install build-essential
-          sudo apt install git -y
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install mingw-w64
-          GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc-11.2.0 CXX=x86_64-w64-mingw32-gcc-11.2.0 go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
+          git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
+          go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
