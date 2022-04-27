@@ -64,6 +64,8 @@ github.com/core-coin/go-core v1.1.1 h1:r+2u5QtXAxA8lTfngXvsOCg/Yq+UnPRJT6YHUW/V4
 github.com/core-coin/go-core v1.1.1/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
 github.com/core-coin/go-core v1.1.2 h1:Yis1AeWNDx2wOQN9Igm0JjF9x4FeRH39mASV2luVYGY=
 github.com/core-coin/go-core v1.1.2/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
+github.com/core-coin/go-core v1.1.3 h1:Iacxaiy8gJjhRD1oKU5PPPHgGhURFLImszdZwTbCqsc=
+github.com/core-coin/go-core v1.1.3/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
 github.com/core-coin/go-goldilocks v1.0.9 h1:NEX5+LXeLpj3yJPKQgEffj2ly33rOvANsWDcQR8jBUs=
 github.com/core-coin/go-goldilocks v1.0.9/go.mod h1:r6mSidt/OMBXorR8jBJYJttsver3m2EBAcSuf+m2Js0=
 github.com/core-coin/go-randomy v0.0.14/go.mod h1:7YzU3Hrss60CzXlzziTZNAQUN6u+eLAHH1cL1JRGLBE=
