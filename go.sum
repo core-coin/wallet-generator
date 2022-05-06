@@ -66,6 +66,8 @@ github.com/core-coin/go-core v1.1.2 h1:Yis1AeWNDx2wOQN9Igm0JjF9x4FeRH39mASV2luVY
 github.com/core-coin/go-core v1.1.2/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
 github.com/core-coin/go-core v1.1.3 h1:Iacxaiy8gJjhRD1oKU5PPPHgGhURFLImszdZwTbCqsc=
 github.com/core-coin/go-core v1.1.3/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
+github.com/core-coin/go-core v1.1.4 h1:PNaj0qVefzAr5XDdhGTzTuLS13Yz6w69nwr/2GUiPT0=
+github.com/core-coin/go-core v1.1.4/go.mod h1:gTwqMxP9EdkVFVO8XYRw2IPYQR4gwTFW+v95UwcXDdw=
 github.com/core-coin/go-goldilocks v1.0.9 h1:NEX5+LXeLpj3yJPKQgEffj2ly33rOvANsWDcQR8jBUs=
 github.com/core-coin/go-goldilocks v1.0.9/go.mod h1:r6mSidt/OMBXorR8jBJYJttsver3m2EBAcSuf+m2Js0=
 github.com/core-coin/go-randomy v0.0.14/go.mod h1:7YzU3Hrss60CzXlzziTZNAQUN6u+eLAHH1cL1JRGLBE=
@@ -287,6 +289,7 @@ golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPh
 golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 h1:7I4JAnoQBe7ZtJcBaYHi5UtiO8tQHbUSXxL+pnGRANg=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
+golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/exp v0.0.0-20180321215751-8460e604b9de/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20180807140117-3d87b88a115f/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
