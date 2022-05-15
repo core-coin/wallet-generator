@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Discussion
+    url: https://coretalk.info
+    about: Discussion about Core Blockchain.
+  - name: Quick Start
+    url: https://github.com/core-coin/wallet-generator#start-the-application
+    about: How to start the wallet manual.
+  - name: All releases
+    url: https://github.com/core-coin/wallet-generator/releases
+    about: You can download release for x86_64 architestures.
