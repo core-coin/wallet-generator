@@ -4,12 +4,12 @@ title: "[BUG] "
 labels:
   - bug
 assignees:
-  - raisty
+  - rastislavcore
 body:
   - type: markdown
     attributes:
       value: |
-        Please, provide as much details as possible to make proper evaluation and in the end resolve the bug report faster.
+        Please, provide as many details as possible to make a proper evaluation and in the end resolve the bug report faster.
 
   - type: markdown
     attributes:
@@ -38,7 +38,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Software specific details.
+        Software-specific details.
 
   - type: input
     id: os
