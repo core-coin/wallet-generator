@@ -4,7 +4,7 @@ title: "[FEATURE] "
 labels:
   - feature
 assignees:
-  - raisty
+  - rastislavcore
 body:
   - type: markdown
     attributes:
@@ -37,7 +37,7 @@ body:
     id: implementation
     attributes:
       label: Implementation
-      description: Describe implementation with example of the code.
+      description: Describe implementation with an example of the code.
 
   - type: textarea
     id: additional
