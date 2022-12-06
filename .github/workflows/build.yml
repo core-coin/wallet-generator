@@ -17,11 +17,6 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.16.x
-      - name: Configure github for private modules
-        shell: bash
-        env:
-          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        run: git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
       - name: Build for Mac and Linux
         if: matrix.platform.path == 'linux-x86_64' || matrix.platform.path == 'darwin-x86_64'
         run: |
@@ -44,11 +39,7 @@ jobs:
       - name: Build for Windows
         if: ${{ matrix.platform.path == 'windows-x86_64' }}
         shell: msys2 {0}
-        env:
-          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        run: |
-          git config --global url."https://error2215:${TOKEN}@github.com/core-coin/go-core".insteadOf "https://github.com/core-coin/go-core"
-          go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
+        run: go build -o bin/wallet-generator.exe -buildmode=exe main.go templates.go
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
