@@ -4,10 +4,6 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
-	"github.com/core-coin/go-core/accounts/keystore"
-	"github.com/core-coin/go-core/common"
-	"github.com/core-coin/go-core/crypto"
-	"github.com/core-coin/go-goldilocks"
 	"html/template"
 	rand2 "math/rand"
 	"net/http"
@@ -17,6 +13,10 @@ import (
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/core-coin/go-core/v2/accounts/keystore"
+	"github.com/core-coin/go-core/v2/common"
+	"github.com/core-coin/go-core/v2/crypto"
 )
 
 type DecryptedWalletData struct {
@@ -73,16 +73,14 @@ func rawDataHandler(w http.ResponseWriter, r *http.Request) {
 		)
 		return
 	}
-	PublicKey := goldilocks.Ed448DerivePublicKey(*PrivateKey)
-
-	Address := crypto.PubkeyToAddress(PublicKey)
 
 	returnPageToClient(
 		w,
 		DecryptedWalletData{
-			PrivateKey: common.Bytes2Hex(PrivateKey[:]),
-			PublicKey:  common.Bytes2Hex(PublicKey[:]),
-			Address:    Address.Hex()},
+			PrivateKey: common.Bytes2Hex(PrivateKey.PrivateKey()),
+			PublicKey:  common.Bytes2Hex(PrivateKey.PublicKey()[:]),
+			Address:    PrivateKey.Address().Hex(),
+		},
 		baseHTML,
 		decryptedHTML,
 		cssHTML,

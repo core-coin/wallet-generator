@@ -16,7 +16,7 @@ jobs:
       - name: Setup
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16.x
+          go-version: 1.19.x
       - name: Build for Mac and Linux
         if: matrix.platform.path == 'linux-x86_64' || matrix.platform.path == 'darwin-x86_64'
         run: |
