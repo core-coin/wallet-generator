@@ -7,8 +7,8 @@ github.com/awnumar/memguard v0.21.0/go.mod h1:+ejY3DekvjnDWBXHwL5xB5p4Il77kDsrIz
 github.com/cespare/cp v0.1.0 h1:SE+dxFebS7Iik5LK0tsi1k9ZCxEaFX4AjQmoyA+1dJk=
 github.com/core-coin/ed448 v1.0.2 h1:t9fwBGw8i3HN8cISUlt4GA3TpYPNPR6xD09qtCuoyFA=
 github.com/core-coin/ed448 v1.0.2/go.mod h1:/S7hge2XKh2GI/dFp551tIsXDGGD6OU/CSRId+/OjII=
-github.com/core-coin/go-core/v2 v2.0.0-beta3 h1:ALNqAdTBCSsKbX5SBj2U1n9SvLjjfAgDR1FLstM0vLA=
-github.com/core-coin/go-core/v2 v2.0.0-beta3/go.mod h1:x+MtCFeW4e8SMaP96DgqEjWAHQkeulNPhsQ3iYvlwiY=
+github.com/core-coin/go-core/v2 v2.0.0-beta5 h1:KUFEPiKUFCr1Px23N6f8Vor4nIgAATV135pmSuKfJDQ=
+github.com/core-coin/go-core/v2 v2.0.0-beta5/go.mod h1:x+MtCFeW4e8SMaP96DgqEjWAHQkeulNPhsQ3iYvlwiY=
 github.com/core-coin/go-goldilocks v1.0.15 h1:3O3xBf/jlenorGY52BlM5RexEtpotsHmFfj3Y6BTaDE=
 github.com/core-coin/go-goldilocks v1.0.15/go.mod h1:NkEKobYkncEzU+X2RQUQQCIRvzfgoFv2EqpoFtCkhV4=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

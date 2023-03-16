@@ -2,7 +2,7 @@ module github.com/core-coin/wallet-generator
 
 go 1.19
 
-require github.com/core-coin/go-core/v2 v2.0.0-beta3
+require github.com/core-coin/go-core/v2 v2.0.0-beta5
 
 require (
 	github.com/aristanetworks/goarista v0.0.0-20170210015632-ea17b1a17847 // indirect
